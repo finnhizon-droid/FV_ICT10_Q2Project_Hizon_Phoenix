@@ -3,32 +3,33 @@ from pyscript import document, display
 
 
 
-#SEATWORK1
-#List of the already accepted basketball varsity members
+# - SEATWORK 1 - CLUB MEMBER CHECKER - 
 
-varsity_members = ["Phoenix Hizon", "Erin Urbano", "Joaquin Castor", "Jarvis Joven", "Enzo Ruiz", "Rocky Saludez", "Miguel Santos"]
 
-#Clicking the button triggers this event to verify if the inputted name is in the given list
+varsity_members = [
+    "Phoenix Hizon",
+    "Erin Urbano",
+    "Joaquin Castor",
+    "Jarvis Joven",
+    "Enzo Ruiz",
+    "Rocky Saludez",
+    "Miguel Santos",
+]
 
 def verify(event):
-
-# 2 & 3. Get input values and combine into one full name using f-strings
-
     first_name = document.getElementById("first_name").value.strip()
     last_name = document.getElementById("last_name").value.strip()
-    candidate_name = f"{first_name} {last_name}"
+    candidate_name = f"{first_name} {last_name}".strip()
 
-#Using if/else statements to verify the inputted name and to set the message
+    status = {
+        True: (f"Congratulations {candidate_name}! You are now part of the ICT club.",
+            "member-found",),
+        False: (f"Sorry {candidate_name}, your name is not on the list.",
+            "member-not-found",),
+    }
 
-    if candidate_name in varsity_members:
-        message = f"Congratulations {candidate_name}! You are now part of the ICT club."
-        styling = "member-found"
-
-    else:
-        message = f"Sorry {candidate_name}, your name is not on the list."
-        styling = "member-not-found"
-
-#Display the text and apply CSS to it
+    is_member = candidate_name in varsity_members
+    message, styling = status[is_member]
 
     result_div = document.getElementById("result")
     result_div.innerText = message
@@ -38,8 +39,8 @@ def verify(event):
 
 
 
+# - SKILLS TEST - ELEMENT CHECKER -
 
-#SKILLS TEST
 # Dictionary containing elements
 nonmetals = {
     "H": ("Hydrogen", 1, 1.008), 
@@ -63,7 +64,7 @@ nonmetals = {
 
 def search_nonmetal(e):
     # Get the input FROM HTML
-    Nonmetal1 = document.getElementById("nonmetal1").value.strip()
+    Nonmetal1 = document.getElementById("nonmetal1").value.strip().capitalize()
     
     # Retrieve information from dictionary
     result = nonmetals.get(Nonmetal1, ("DATA_NOT_FOUND", "---", "---"))
@@ -80,38 +81,7 @@ def search_nonmetal(e):
 
 
 
-#DRILL2
-# #List of the already accepted basketball varsity members
-
-# varsity_members = ["Phoenix Hizon", "Erin Urbano", "Joaquin Castor", "Jarvis Joven", "Enzo Ruiz", "Rocky Saludez", "Miguel Santos"]
-
-# #Clicking the button triggers this event to verify if the inputted name is in the given list
-
-# def verify(event):
-
-# # 2 & 3. Get input values and combine into one full name using f-strings
-
-#     first_name = document.getElementById("first_name").value.strip()
-#     last_name = document.getElementById("last_name").value.strip()
-#     candidate_name = f"{first_name} {last_name}"
-
-# #Using if/else statements to verify the inputted name and to set the message
-
-#     if candidate_name in varsity_members:
-#         message = f"Congratulations {candidate_name}! You are now part of the ICT club."
-#         styling = "member-found"
-
-#     else:
-#         message = f"Sorry {candidate_name}, your name is not on the list."
-#         styling = "member-not-found"
-
-# #Display the text and apply CSS to it
-
-#     result_div = document.getElementById("result")
-#     result_div.innerText = message
-#     result_div.className = styling
-#     result_div.style.opacity = "1"
-
+# - DRILL 2 - SCHOOL CLUB MEMBERS -
 grade7 = {'Miguel Santos', 'Enzo Ruiz', 'Spencer Santillan'}
 grade8 = {'Jeremiah Schumacher', 'Joaquin Castor', 'Gerthy Bausa'}
 grade9 = {'Erin Urbano', 'Jarvis Joven', 'Rocky Saludez'}
@@ -119,25 +89,21 @@ grade10 = {'Phoenix Hizon', 'Eran Diaz', 'Carlos Borromeo'}
 
 total_members = grade7 | grade8 | grade9 | grade10
 
-number_members = (len(total_members))
-display(number_members, target = 'total')
+def fixed_members():
+    document.getElementById("normal").innerHTML = "<br>".join(sorted(total_members))
+    document.getElementById("total").innerHTML = f"Total Members: {len(total_members)}"
 
-members_list = '<br>' + '<br>'.join(sorted(total_members))
-
-display(members_list, target = 'normal')
+fixed_members()
 
 def adding(event):
-
     first_name = document.getElementById("first_name").value.strip()
     last_name = document.getElementById("last_name").value.strip()
-    candidate_name = first_name + " " + last_name
+    name = f"{first_name} {last_name}".strip()
 
-    display(candidate_name, target = 'normal')
-
-    updated = number_members + 1
-
-    display(updated, target = 'total')
-
+    total_members.add(name)
+    fixed_members()
+    document.getElementById("first_name").value = ""
+    document.getElementById("last_name").value = ""
 
 
 
